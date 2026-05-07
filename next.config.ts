@@ -16,6 +16,19 @@ const nextConfig: NextConfig = {
     "192.168.1.*",
     "192.168.*.*",
   ],
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: 'frame-ancestors *',
+          },
+        ],
+      },
+    ]
+  },
 };
 
 export default nextConfig;
