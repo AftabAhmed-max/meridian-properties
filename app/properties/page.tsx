@@ -9,7 +9,6 @@ import allProperties from '@/data/properties.json';
 import { Suspense } from 'react';
 import CustomSelect from '@/components/CustomSelect';
 
-// Add these option arrays inside PropertiesContent:
 const typeOptions = [
   { value: 'apartment', label: 'Apartment' },
   { value: 'villa', label: 'Villa / Townhouse' },

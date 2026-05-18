@@ -98,8 +98,8 @@ export default function Navbar() {
                 <Phone size={14} />
                 +971 4 345 6789
               </a>
-              <Link href="/properties" className="btn-primary" style={{ padding: '10px 24px', fontSize: '13px' }}>
-                Make Enquiry              
+              <Link href="/contact" className="btn-primary" style={{ padding: '10px 24px', fontSize: '13px' }}>
+                Make Enquiry
               </Link>
             </div>
 
@@ -149,7 +149,7 @@ export default function Navbar() {
             ))}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
               <Link href="/contact" className="btn-primary" onClick={() => setMobileOpen(false)}>
-                Make Enquiry              
+                Make Enquiry
               </Link>
             </motion.div>
           </motion.div>

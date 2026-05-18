@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,7 +10,6 @@ import PropertyCard from '@/components/PropertyCard';
 import properties from '@/data/properties.json';
 import CustomSelect from '@/components/CustomSelect';
 
-// Add these option arrays near the top of your component:
 const typeOptions = [
   { value: 'apartment', label: 'Apartment' },
   { value: 'villa', label: 'Villa / Townhouse' },
@@ -41,7 +40,7 @@ export default function HomePage() {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchPrice, setSearchPrice] = useState('');
 
-  const featuredProperties = properties.filter(p => p.featured).slice(0, 6);
+  const featuredProperties = useMemo(() => properties.filter(p => p.featured).slice(0, 6), []);
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -305,15 +304,19 @@ export default function HomePage() {
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '16px' }}>
-            {['Dubai Marina', 'Palm Jumeirah', 'Downtown Dubai', 'Business Bay', 'DIFC', 'Dubai Hills', 'JVC', 'Abu Dhabi'].map((area, i) => (
-              <motion.div key={area} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                <Link
-                  href={`/properties?location=${encodeURIComponent(area)}`}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#FFFFFF', borderRadius: '8px', padding: '16px 20px', textDecoration: 'none', color: '#1A1A2E', fontSize: '14px', fontWeight: 500, transition: 'all 0.25s', border: '1px solid transparent' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#C9A84C'; (e.currentTarget as HTMLAnchorElement).style.color = '#C9A84C'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'transparent'; (e.currentTarget as HTMLAnchorElement).style.color = '#1A1A2E'; }}
-                >
-                  {area}
+            {[
+              { label: 'Dubai Marina', value: 'Dubai Marina' },
+              { label: 'Palm Jumeirah', value: 'Palm Jumeirah' },
+              { label: 'Downtown Dubai', value: 'Downtown Dubai' },
+              { label: 'Business Bay', value: 'Business Bay' },
+              { label: 'DIFC', value: 'DIFC' },
+              { label: 'Dubai Hills', value: 'Dubai Hills Estate' },
+              { label: 'JVC', value: 'Jumeirah Village Circle' },
+              { label: 'Abu Dhabi', value: 'Abu Dhabi' },
+            ].map((area, i) => (
+              <motion.div key={area.value} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                <Link href={`/properties?location=${encodeURIComponent(area.value)}`} className="area-guide-link">
+                  {area.label}
                   <ChevronRight size={14} />
                 </Link>
               </motion.div>

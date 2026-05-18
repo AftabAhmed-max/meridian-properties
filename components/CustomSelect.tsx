@@ -33,7 +33,7 @@ export default function CustomSelect({ options, value, onChange, placeholder, va
   const isLight = variant === 'light';
 
   return (
-    <div ref={ref} style={{ position: 'relative', minWidth: isLight ? '160px' : '160px', flexShrink: 0 }}>
+    <div ref={ref} style={{ position: 'relative', minWidth: '160px', flexShrink: 0 }}>
       {/* Trigger */}
       <button
         type="button"

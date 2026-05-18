@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Globe, Share2, Link2 } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, Linkedin, Facebook } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="footer-bg">
       <div className="container-main" style={{ paddingTop: '72px', paddingBottom: '72px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '48px', marginBottom: '64px' }}>
-          
+
           {/* Brand */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
@@ -26,8 +26,12 @@ export default function Footer() {
               Where Vision Meets Value. Premium real estate advisory across the UAE and Gulf region since 2009.
             </p>
             <div style={{ display: 'flex', gap: '12px' }}>
-              {[Globe, Share2, Link2].map((Icon, i) => (
-                <a key={i} href="#" style={{ width: '36px', height: '36px', borderRadius: '6px', border: '1px solid rgba(250,249,247,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(250,249,247,0.5)', textDecoration: 'none' }}>
+              {[
+                { Icon: Instagram, label: 'Instagram' },
+                { Icon: Linkedin, label: 'LinkedIn' },
+                { Icon: Facebook, label: 'Facebook' },
+              ].map(({ Icon, label }) => (
+                <a key={label} href="#" aria-label={label} style={{ width: '36px', height: '36px', borderRadius: '6px', border: '1px solid rgba(250,249,247,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(250,249,247,0.5)', textDecoration: 'none' }}>
                   <Icon size={15} />
                 </a>
               ))}
@@ -81,13 +85,8 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(250,249,247,0.08)', paddingTop: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <p style={{ fontSize: '13px', color: 'rgba(250,249,247,0.4)' }}>
-            © 2025 Meridian Properties LLC. All rights reserved. RERA Licensed.
+            © {new Date().getFullYear()} Meridian Properties LLC. All rights reserved. RERA Licensed.
           </p>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(item => (
-              <a key={item} href="#" style={{ fontSize: '13px', color: 'rgba(250,249,247,0.4)', textDecoration: 'none' }}>{item}</a>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

@@ -5,18 +5,30 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Check } from 'lucide-react';
 
+const FORMSPREE_URL = `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID ?? 'mlgzljgb'}`;
+
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch('https://formspree.io/f/mlgzljgb', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(form),
-    });
-    if (res.ok) setSubmitted(true);
+    setFormError(false);
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setFormError(true);
+      }
+    } catch {
+      setFormError(true);
+    }
   };
 
   const contactInfo = [
@@ -126,7 +138,14 @@ export default function ContactPage() {
                       <input className="form-input" placeholder="Full Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
                       <input className="form-input" type="email" placeholder="Email Address" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required />
                     </div>
-                    <input className="form-input" type="tel" placeholder="Phone / WhatsApp" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} />
+                    <input
+                      className="form-input"
+                      type="tel"
+                      placeholder="Phone / WhatsApp"
+                      pattern="[+]?[0-9\s\-\(\)]{7,20}"
+                      value={form.phone}
+                      onChange={e => setForm({ ...form, phone: e.target.value })}
+                    />
                     <select className="form-select" value={form.subject} onChange={e => setForm({ ...form, subject: e.target.value })} required>
                       <option value="">Select a Subject</option>
                       <option value="buying">I want to Buy a Property</option>
@@ -137,6 +156,11 @@ export default function ContactPage() {
                       <option value="other">General Enquiry</option>
                     </select>
                     <textarea className="form-input" rows={5} placeholder="Tell us more about what you're looking for..." value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} style={{ resize: 'vertical' }} />
+                    {formError && (
+                      <p style={{ fontSize: '13px', color: '#C0392B', textAlign: 'center' }}>
+                        Something went wrong. Please try again or email us directly.
+                      </p>
+                    )}
                     <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center', display: 'flex', padding: '16px' }}>
                       Send Message
                     </button>

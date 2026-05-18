@@ -198,13 +198,16 @@ export default function AboutPage() {
               <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
                 style={{ background: '#FFFFFF', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 16px rgba(26,26,46,0.06)', transition: 'all 0.3s' }}>
                 <div style={{ position: 'relative', height: '280px' }}>
-                  <Image src={member.photo} alt={member.name} fill style={{ objectFit: 'cover' }} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+                  <Image src={member.photo} alt={member.name} fill style={{ objectFit: 'cover' }} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" priority={i < 2} />
                 </div>
                 <div style={{ padding: '24px' }}>
                   <p style={{ fontSize: '18px', fontWeight: 600, color: '#1A1A2E', fontFamily: 'var(--font-display)', marginBottom: '4px' }}>{member.name}</p>
                   <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C9A84C', marginBottom: '12px' }}>{member.role}</p>
                   <p style={{ fontSize: '13px', color: '#4A5568', lineHeight: 1.65, marginBottom: '12px' }}>{member.bio}</p>
-                  <p style={{ fontSize: '11px', color: '#8A8FA8' }}>🌐 {member.languages}</p>
+                  <p style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#8A8FA8' }}>
+                    <Globe size={11} style={{ flexShrink: 0 }} />
+                    {member.languages}
+                  </p>
                 </div>
               </motion.div>
             ))}
