@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Instagram, Linkedin, Facebook } from 'lucide-react';
+import { Phone, Mail, MapPin, Globe, Share2, Link2 } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -27,9 +27,9 @@ export default function Footer() {
             </p>
             <div style={{ display: 'flex', gap: '12px' }}>
               {[
-                { Icon: Instagram, label: 'Instagram' },
-                { Icon: Linkedin, label: 'LinkedIn' },
-                { Icon: Facebook, label: 'Facebook' },
+                { Icon: Globe, label: 'Website' },
+                { Icon: Share2, label: 'Social' },
+                { Icon: Link2, label: 'Links' },
               ].map(({ Icon, label }) => (
                 <a key={label} href="#" aria-label={label} style={{ width: '36px', height: '36px', borderRadius: '6px', border: '1px solid rgba(250,249,247,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(250,249,247,0.5)', textDecoration: 'none' }}>
                   <Icon size={15} />
