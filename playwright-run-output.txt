@@ -1,0 +1,256 @@
+
+Running 29 tests using 6 workers
+
+  ✓   1 [chromium] › tests\crash.spec.ts:39:7 › Open admin access › [WARNING] /admin is reachable with no authentication (2.7s)
+  ✓   6 [chromium] › tests\crash.spec.ts:75:7 › Contact form abuse › [MINOR] empty submit is blocked by validation (no success state) (3.8s)
+  ✓   4 [chromium] › tests\crash.spec.ts:55:9 › Malformed / hostile property ids › [CRITICAL] /properties/abc does not crash or reflect XSS (3.9s)
+  ✓   3 [chromium] › tests\crash.spec.ts:55:9 › Malformed / hostile property ids › [CRITICAL] /properties/%3Cscript%3Ealert(1)%3C%2Fscript%3E does not crash or reflect XSS (4.0s)
+  ✓   2 [chromium] › tests\crash.spec.ts:55:9 › Malformed / hostile property ids › [CRITICAL] /properties/-1 does not crash or reflect XSS (4.1s)
+  ✓   5 [chromium] › tests\crash.spec.ts:81:7 › Contact form abuse › [CRITICAL] XSS payload in fields is not executed (6.8s)
+  ✓  10 [chromium] › tests\crash.spec.ts:155:7 › CMS field abuse › [MINOR] huge strings in a property name do not crash the CMS (3.9s)
+  ✓   9 [chromium] › tests\crash.spec.ts:139:7 › CMS field abuse › [WARNING] empty required fields still save (validation is bypassed) (4.0s)
+  ✓   7 [chromium] › tests\crash.spec.ts:100:7 › Contact form abuse › [MINOR] oversized input (10k chars) does not crash the form (6.4s)
+  ✓  12 [chromium] › tests\crash.spec.ts:203:7 › Routing › [MINOR] unknown top-level route returns a 404 (2.4s)
+  ✓   8 [chromium] › tests\crash.spec.ts:116:7 › Contact form abuse › [MINOR] rapid double-submit does not break the UI (6.9s)
+  ✓  14 [chromium] › tests\crash.spec.ts:226:7 › localStorage tampering › [CRITICAL] valid-but-non-array store does not white-screen the listing (2.9s)
+  ✓  11 [chromium] › tests\crash.spec.ts:168:7 › CMS field abuse › [CRITICAL] script injection in name/description is escaped on the public detail page (7.8s)
+  ✓  18 [chromium] › tests\functional.spec.ts:64:7 › Pages render with expected content › about page shows team + milestones (2.5s)
+  ✘  17 [chromium] › tests\functional.spec.ts:53:7 › Pages render with expected content › home page loads with hero + featured section (3.0s)
+  ✘  16 [chromium] › tests\functional.spec.ts:44:7 › Navigation › logo returns to home from an inner page (4.6s)
+  ✘  15 [chromium] › tests\functional.spec.ts:27:7 › Navigation › every top-nav link routes correctly (5.8s)
+  ✘  20 [chromium] › tests\functional.spec.ts:71:7 › Pages render with expected content › contact page shows form + office info (2.3s)
+  ✓  21 [chromium] › tests\functional.spec.ts:125:7 › Property detail › invalid numeric id is handled gracefully (no crash, shows 404 UI) (2.2s)
+  ✓  23 [chromium] › tests\functional.spec.ts:114:7 › Property detail › valid id renders real property fields (3.1s)
+  ✘  13 [chromium] › tests\crash.spec.ts:211:7 › localStorage tampering › [CRITICAL] malformed (unparseable) store falls back to seed, no white-screen (13.3s)
+  ✓  22 [chromium] › tests\functional.spec.ts:103:7 › Property listing › clicking a card opens its detail page (3.7s)
+  ✓  26 [chromium] › tests\functional.spec.ts:175:7 › /admin CMS (open, no auth) › admin page loads without authentication (1.7s)
+  ✓  24 [chromium] › tests\functional.spec.ts:137:7 › Contact form › required-field validation blocks empty submit (4.3s)
+  ✘  19 [chromium] › tests\functional.spec.ts:81:7 › Property listing › renders all seed cards, count label matches, each links to a detail page (11.8s)
+  ✓  28 [chromium] › tests\functional.spec.ts:246:7 › Responsive (mobile 375px) › hamburger menu opens and navigates; layout has no horizontal overflow (3.4s)
+  ✓  29 [chromium] › tests\functional.spec.ts:183:7 › /admin CMS (open, no auth) › CRUD: create, verify, edit, delete a property (2.4s)
+  ✓  25 [chromium] › tests\functional.spec.ts:150:7 › Contact form › valid submit hits the real Formspree endpoint and shows success (13.7s)
+  ✘  27 [chromium] › tests\functional.spec.ts:224:7 › Persistence (localStorage-backed, same browser context) › a CMS-created property appears on the public listing after reload (13.2s)
+
+
+  1) [chromium] › tests\crash.spec.ts:211:7 › localStorage tampering › [CRITICAL] malformed (unparseable) store falls back to seed, no white-screen 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('a.property-card')
+    Expected: [32m32[39m
+    Received: [31m31[39m
+    Timeout:  10000ms
+
+    Call log:
+    [2m  - Expect "toHaveCount" with timeout 10000ms[22m
+    [2m  - waiting for locator('a.property-card')[22m
+    [2m    22 × locator resolved to 31 elements[22m
+    [2m       - unexpected value "31"[22m
+
+
+      220 |     // try/catch in loadProperties() should recover to the 32-record seed.
+      221 |     await expect(page.locator('a.property-card').first()).toBeVisible();
+    > 222 |     await expect(page.locator('a.property-card')).toHaveCount(SEED_COUNT);
+          |                                                   ^
+      223 |     expect(errors, `page errors: ${errors.join(' | ')}`).toHaveLength(0);
+      224 |   });
+      225 |
+        at C:\Users\siddi\Desktop\STACKWORK_PROJECTS\03_DEMOS\1-websites\meridian-properties\tests\crash.spec.ts:222:51
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\crash-localStorage-tamperi-395d5-ack-to-seed-no-white-screen-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\crash-localStorage-tamperi-395d5-ack-to-seed-no-white-screen-chromium\error-context.md
+
+  2) [chromium] › tests\functional.spec.ts:27:7 › Navigation › every top-nav link routes correctly ─
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: 'Contact Us' })
+    Expected: visible
+    Error: strict mode violation: getByRole('heading', { name: 'Contact Us' }) resolved to 2 elements:
+        1) <h1 class="section-title-light">Contact Us</h1> aka locator('h1')
+        2) <h4>Contact Us</h4> aka getByRole('contentinfo').getByRole('heading', { name: 'Contact Us' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByRole('heading', { name: 'Contact Us' })[22m
+
+
+      39 |     await nav.getByRole('link', { name: 'Contact', exact: true }).click();
+      40 |     await expect(page).toHaveURL(/\/contact$/);
+    > 41 |     await expect(page.getByRole('heading', { name: 'Contact Us' })).toBeVisible();
+         |                                                                     ^
+      42 |   });
+      43 |
+      44 |   test('logo returns to home from an inner page', async ({ page }) => {
+        at C:\Users\siddi\Desktop\STACKWORK_PROJECTS\03_DEMOS\1-websites\meridian-properties\tests\functional.spec.ts:41:69
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\functional-Navigation-every-top-nav-link-routes-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\functional-Navigation-every-top-nav-link-routes-correctly-chromium\error-context.md
+
+  3) [chromium] › tests\functional.spec.ts:44:7 › Navigation › logo returns to home from an inner page 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Meets Value')
+    Expected: visible
+    Error: strict mode violation: getByText('Meets Value') resolved to 2 elements:
+        1) <em>Meets Value</em> aka getByText('Meets Value', { exact: true })
+        2) <p>Where Vision Meets Value. Premium real estate adv…</p> aka getByText('Where Vision Meets Value.')
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByText('Meets Value')[22m
+
+
+      46 |     await page.locator('nav a[href="/"]').first().click();
+      47 |     await expect(page).toHaveURL('https://meridian-properties-eta.vercel.app/');
+    > 48 |     await expect(page.getByText('Meets Value')).toBeVisible();
+         |                                                 ^
+      49 |   });
+      50 | });
+      51 |
+        at C:\Users\siddi\Desktop\STACKWORK_PROJECTS\03_DEMOS\1-websites\meridian-properties\tests\functional.spec.ts:48:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\functional-Navigation-logo-3462a--to-home-from-an-inner-page-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\functional-Navigation-logo-3462a--to-home-from-an-inner-page-chromium\error-context.md
+
+  4) [chromium] › tests\functional.spec.ts:53:7 › Pages render with expected content › home page loads with hero + featured section 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Where Vision')
+    Expected: visible
+    Error: strict mode violation: getByText('Where Vision') resolved to 2 elements:
+        1) <h1 class="font-display">…</h1> aka getByRole('heading', { name: 'Where Vision Meets Value' })
+        2) <p>Where Vision Meets Value. Premium real estate adv…</p> aka getByText('Where Vision Meets Value.')
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByText('Where Vision')[22m
+
+
+      53 |   test('home page loads with hero + featured section', async ({ page }) => {
+      54 |     await page.goto('/');
+    > 55 |     await expect(page.getByText('Where Vision')).toBeVisible();
+         |                                                  ^
+      56 |     await expect(page.getByText('Meets Value')).toBeVisible();
+      57 |     await expect(page.getByRole('button', { name: 'Search' })).toBeVisible();
+      58 |     await expect(page.getByRole('heading', { name: 'Featured Properties' })).toBeVisible();
+        at C:\Users\siddi\Desktop\STACKWORK_PROJECTS\03_DEMOS\1-websites\meridian-properties\tests\functional.spec.ts:55:50
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\functional-Pages-render-wi-ad1d3--with-hero-featured-section-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\functional-Pages-render-wi-ad1d3--with-hero-featured-section-chromium\error-context.md
+
+  5) [chromium] › tests\functional.spec.ts:71:7 › Pages render with expected content › contact page shows form + office info 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: 'Contact Us' })
+    Expected: visible
+    Error: strict mode violation: getByRole('heading', { name: 'Contact Us' }) resolved to 2 elements:
+        1) <h1 class="section-title-light">Contact Us</h1> aka locator('h1')
+        2) <h4>Contact Us</h4> aka getByRole('contentinfo').getByRole('heading', { name: 'Contact Us' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByRole('heading', { name: 'Contact Us' })[22m
+
+
+      71 |   test('contact page shows form + office info', async ({ page }) => {
+      72 |     await page.goto('/contact');
+    > 73 |     await expect(page.getByRole('heading', { name: 'Contact Us' })).toBeVisible();
+         |                                                                     ^
+      74 |     await expect(page.getByPlaceholder('Full Name')).toBeVisible();
+      75 |     await expect(page.getByRole('button', { name: 'Send Message' })).toBeVisible();
+      76 |     await expect(page.getByText('hello@meridianproperties.ae')).toBeVisible();
+        at C:\Users\siddi\Desktop\STACKWORK_PROJECTS\03_DEMOS\1-websites\meridian-properties\tests\functional.spec.ts:73:69
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\functional-Pages-render-wi-07e98-page-shows-form-office-info-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\functional-Pages-render-wi-07e98-page-shows-form-office-info-chromium\error-context.md
+
+  6) [chromium] › tests\functional.spec.ts:81:7 › Property listing › renders all seed cards, count label matches, each links to a detail page 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('a.property-card')
+    Expected: [32m32[39m
+    Received: [31m31[39m
+    Timeout:  10000ms
+
+    Call log:
+    [2m  - Expect "toHaveCount" with timeout 10000ms[22m
+    [2m  - waiting for locator('a.property-card')[22m
+    [2m    22 × locator resolved to 31 elements[22m
+    [2m       - unexpected value "31"[22m
+
+
+      86 |
+      87 |     // Card count equals the seed size.
+    > 88 |     await expect(cards).toHaveCount(SEED_COUNT);
+         |                         ^
+      89 |
+      90 |     // The "N properties" counter must agree with the number of rendered cards.
+      91 |     const counterText = await page.getByText(/\d+\s+propert(y|ies)/).first().innerText();
+        at C:\Users\siddi\Desktop\STACKWORK_PROJECTS\03_DEMOS\1-websites\meridian-properties\tests\functional.spec.ts:88:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\functional-Property-listin-ba05d-each-links-to-a-detail-page-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\functional-Property-listin-ba05d-each-links-to-a-detail-page-chromium\error-context.md
+
+  7) [chromium] › tests\functional.spec.ts:224:7 › Persistence (localStorage-backed, same browser context) › a CMS-created property appears on the public listing after reload 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('a.property-card')
+    Expected: [32m33[39m
+    Received: [31m32[39m
+    Timeout:  10000ms
+
+    Call log:
+    [2m  - Expect "toHaveCount" with timeout 10000ms[22m
+    [2m  - waiting for locator('a.property-card')[22m
+    [2m    23 × locator resolved to 32 elements[22m
+    [2m       - unexpected value "32"[22m
+
+
+      239 |     // New property is hidden:false -> shows on the listing.
+      240 |     await expect(page.locator('.property-name', { hasText: name })).toBeVisible();
+    > 241 |     await expect(page.locator('a.property-card')).toHaveCount(SEED_COUNT + 1);
+          |                                                   ^
+      242 |   });
+      243 | });
+      244 |
+        at C:\Users\siddi\Desktop\STACKWORK_PROJECTS\03_DEMOS\1-websites\meridian-properties\tests\functional.spec.ts:241:51
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\functional-Persistence-loc-eb552-public-listing-after-reload-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\functional-Persistence-loc-eb552-public-listing-after-reload-chromium\error-context.md
+
+  7 failed
+    [chromium] › tests\crash.spec.ts:211:7 › localStorage tampering › [CRITICAL] malformed (unparseable) store falls back to seed, no white-screen 
+    [chromium] › tests\functional.spec.ts:27:7 › Navigation › every top-nav link routes correctly ──
+    [chromium] › tests\functional.spec.ts:44:7 › Navigation › logo returns to home from an inner page 
+    [chromium] › tests\functional.spec.ts:53:7 › Pages render with expected content › home page loads with hero + featured section 
+    [chromium] › tests\functional.spec.ts:71:7 › Pages render with expected content › contact page shows form + office info 
+    [chromium] › tests\functional.spec.ts:81:7 › Property listing › renders all seed cards, count label matches, each links to a detail page 
+    [chromium] › tests\functional.spec.ts:224:7 › Persistence (localStorage-backed, same browser context) › a CMS-created property appears on the public listing after reload 
+  22 passed (40.6s)
