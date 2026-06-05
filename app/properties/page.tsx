@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { SlidersHorizontal, X } from 'lucide-react';
 import PropertyCard from '@/components/PropertyCard';
-import allProperties from '@/data/properties.json';
+import { useProperties } from '@/lib/properties';
 import { Suspense } from 'react';
 import CustomSelect from '@/components/CustomSelect';
 
@@ -39,6 +39,7 @@ const priceOptions = [
 
 function PropertiesContent() {
   const searchParams = useSearchParams();
+  const { properties } = useProperties();
   const [type, setType] = useState(searchParams.get('type') || '');
   const [status, setStatus] = useState(searchParams.get('status') || '');
   const [location, setLocation] = useState(searchParams.get('location') || '');
@@ -52,7 +53,8 @@ function PropertiesContent() {
   }, [searchParams]);
 
   const filtered = useMemo(() => {
-    return allProperties.filter(p => {
+    return properties.filter(p => {
+      if (p.hidden) return false;
       if (type && p.type !== type) return false;
       if (status && p.status !== status) return false;
       if (location && !p.location.toLowerCase().includes(location.toLowerCase()) && !p.city.toLowerCase().includes(location.toLowerCase())) return false;
@@ -64,7 +66,7 @@ function PropertiesContent() {
       }
       return true;
     });
-  }, [type, status, location, price]);
+  }, [properties, type, status, location, price]);
 
   const hasFilters = type || status || location || price;
 

@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Search, ArrowRight, ChevronRight, Star, Award, TrendingUp, Shield } from 'lucide-react';
 import PropertyCard from '@/components/PropertyCard';
-import properties from '@/data/properties.json';
+import { useProperties } from '@/lib/properties';
 import CustomSelect from '@/components/CustomSelect';
 
 const typeOptions = [
@@ -36,11 +36,15 @@ const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 
 export default function HomePage() {
   const router = useRouter();
+  const { properties } = useProperties();
   const [searchType, setSearchType] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   const [searchPrice, setSearchPrice] = useState('');
 
-  const featuredProperties = useMemo(() => properties.filter(p => p.featured).slice(0, 6), []);
+  const featuredProperties = useMemo(
+    () => properties.filter(p => !p.hidden && p.featured).slice(0, 6),
+    [properties]
+  );
 
   const handleSearch = () => {
     const params = new URLSearchParams();

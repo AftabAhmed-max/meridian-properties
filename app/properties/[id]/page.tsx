@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { MapPin, Bed, Bath, Square, Phone, Mail, Check, Share2, Heart, Calendar, Building2 } from 'lucide-react';
-import properties from '@/data/properties.json';
+import { useProperties } from '@/lib/properties';
 import PropertyCard from '@/components/PropertyCard';
 
 const FORMSPREE_URL = `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID ?? 'mlgzljgb'}`;
@@ -17,6 +17,7 @@ const minDate = new Date().toISOString().split('T')[0];
 export default function PropertyDetailPage() {
   const params = useParams();
   const id = params.id as string;
+  const { properties, hydrated } = useProperties();
   const property = properties.find(p => p.id === id);
 
   const [activeImage, setActiveImage] = useState(0);
@@ -25,7 +26,18 @@ export default function PropertyDetailPage() {
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState(false);
 
-  if (!property) return notFound();
+  // Wait for localStorage to hydrate before deciding a property doesn't exist —
+  // admin-created listings live only in storage and aren't in the seed fallback.
+  if (!property) {
+    if (!hydrated) {
+      return (
+        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          Loading...
+        </div>
+      );
+    }
+    return notFound();
+  }
 
   const formattedPrice = new Intl.NumberFormat('en-AE').format(property.price);
   const priceLabel = property.status === 'rent' ? `AED ${formattedPrice} / year` : `AED ${formattedPrice}`;
